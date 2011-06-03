@@ -11,8 +11,8 @@
       $.each([2,3,4,5,6,7,8,9,10,'J','Q','K','A'], function() {
 	      var num = this;
 
-        $.each(['C','D','H','S'], function(){
-          tempStack.push(this+' '+num);
+        $.each(['club','diamond','heart','spade'], function(){
+          tempStack.push(this + '_' + num);
         });
       });
 
@@ -52,27 +52,16 @@
     }
   }
   
-  function Hand(){
-    this.cards = [];
-
-    this.add = function(card){
-      this.cards.push(card);
-    }
-    this.getCards = function(){
-      return this.cards;
-    }
-  }
-
   function Game(){
     this.players = [new Player(), new Player()];
     this.dealer = new Dealer();
     this.cardstack = new Cardstack();
+    this.cardstack.init();
 
     this.match = function(){
-      $.each(this.players, function(){ this.setHand(new Hand()); });
-      this.dealer.setHand(new Hand());
+      var self = this;
 
-      $.each(this.players, function(){ this.receiveCard(this.cardstack.draw()); });
+      $.each(this.players, function(){ this.receiveCard(self.cardstack.draw()); });
       this.dealer.receiveCard(this.cardstack.draw());
 
       while(true){
@@ -80,7 +69,7 @@
         $.each(this.players, function(){ 
           if(this.hit())
           {
-            this.receiveCard(this.cardstack.draw()); 
+            this.receiveCard(self.cardstack.draw()); 
             cardWanted = true;
           }
         });
@@ -91,30 +80,58 @@
       while(this.dealer.hit())
         this.dealer.receiveCard(this.cardstack.draw());
 
-      var self = this;
       $.each(this.players, function(){ self.cardstack.receiveCard(this.getHand().getCards()); });
+
+      // TODO clear hands and back to stack
     }
   }
 
   function Player(){
-    this.hand = null;
+    this.hand = [];
 
-    this.setHand = function(hand){
-      this.hand = hand;
-    }
+    this.dom = $("<div class='player'></div>").appendTo("#players");
+
     this.getHand = function(){
       return this.hand;
     }
-    this.receiveCard = function(card){
+
+    this.clearHand = function() {
+      this.hand = [];
     }
+
+    this.fly = function(card) {
+      var domCard = $("<img src='images/Playing_card_" + card + ".png' class='card' />")
+        .appendTo("body")
+        .css("position", "absolute")
+        .css("left", $("#stack").offset().left)
+        .css("top", $("#stack").offset().top)
+        .animate({ left: $(this.dom).offset().left, top: $(this.dom).offset().top }, 2000);
+    }
+
+    this.receiveCard = function(card){
+      this.hand.push(card);
+      this.fly(card);
+    }
+
     this.hit = function(){
-      return this.hand.cards.length < 3;
+      return this.hand.length < 3;
     }
   }
 
   function Dealer(){
+    this.hand = [];
+
     this.hit = function(){
       return false;
+    }
+
+    this.fly = function(card) {
+      var domCard = $("<img src='images/Playing_card_" + card + ".png' class='card' />")
+        .appendTo("body")
+        .css("position", "absolute")
+        .css("left", $("#stack").offset().left)
+        .css("top", $("#stack").offset().top)
+        .animate({ left: $("#dealer").offset().left, top: $("#dealer").offset().top }, 2000);
     }
   }
 
