@@ -1,69 +1,69 @@
 <html>
+  <head>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="blackjack.js"></script>
 
-<head>
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-  <script type="text/javascript" src="blackjack.js"></script>
+    <style type="text/css">
+      body {
+        text-align: center;
+        background: url(images/logo.jpg);
+        background-repeat: no-repeat;
+        background-color: #1e1b12;
+        background-position: 30px 30px;
+      }
 
-  <style type="text/css">
-    body {
-      text-align: center;
-      background: url(images/logo.jpg);
-      background-repeat: no-repeat;
-      background-color: #1e1b12;
-      background-position: 30px 30px;
-    }
+      * {
+        color: #fff;
+        font: 14px Arial;
+      }
 
-    * {
-      color: #fff;
-      font: 14px Arial;
-    }
+      #dealer {
+        display: inline-block;
+        width: 400px;
+        height: 200px;
+        background-color: #292929; 
+        margin-bottom: 100px;
+        opacity: 0.8;
 
-    #dealer {
-      display: inline-block;
-      width: 400px;
-      height: 200px;
-      background-color: #292929; 
-      margin-bottom: 100px;
-      opacity: 0.8;
+        border-top: 1px solid #777;
+        border-left: 1px solid #777;
 
-      border-top: 1px solid #777;
-      border-left: 1px solid #777;
+        text-shadow: 1px 1px #000;
 
-      text-shadow: 1px 1px #000;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+      }
 
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 10px;
-    }
+      #players {
+        background-color: #292929;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 200px;
+        opacity: 0.8;
 
-    #players {
-      background-color: #292929;
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 200px;
-      opacity: 0.8;
+        border-top: 1px solid #777;
 
-      border-top: 1px solid #777;
+        text-shadow: 1px 1px #000;
 
-      text-shadow: 1px 1px #000;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+      }
 
-      -webkit-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 10px;
-    }
-  </style>
-</head>
+      .card {
+         height: 150px;
+       }
+    </style>
+  </head>
 
-<body>
+  <body>
     <div id="dealer">
-      dealer
     </div>
 
     <div id="players">
-      players
     </div>
-</body>
-
+  </body>
 </html>
