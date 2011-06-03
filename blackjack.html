@@ -1,88 +1,40 @@
 <html>
   <head>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="cardstack.js"></script>
     <script type="text/javascript" src="blackjack.js"></script>
+    <script type="text/javascript" src="player.js"></script>
+    <script type="text/javascript" src="dealer.js"></script>
+    <script type="text/javascript" src="game.js"></script>
 
-    <style type="text/css">
-      body {
-        text-align: center;
-        background: url(images/logo.jpg);
-        background-repeat: no-repeat;
-        background-color: #1e1b12;
-        background-position: 30px 30px;
-      }
-
-      * {
-        color: #fff;
-        font: 14px Arial;
-      }
-
-      #dealer {
-        display: inline-block;
-        width: 400px;
-        height: 200px;
-        background-color: #292929; 
-        opacity: 0.8;
-
-        border-top: 1px solid #777;
-        border-left: 1px solid #777;
-
-        text-shadow: 1px 1px #000;
-
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-      }
-
-      #players {
-        background-color: #292929;
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        height: 200px;
-        opacity: 0.8;
-
-        border-top: 1px solid #777;
-
-        text-shadow: 1px 1px #000;
-
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-      }
-
-      .card {
-         height: 150px;
-       }
-
-      #stack {
-        display: inline-block;
-        vertical-align: top;
-        padding-top: 40px;
-        padding-left: 20px;
-      }
-
-      #players {
-        text-align: left;
-      }
-
-      .player {
-        display: inline-block;
-        width: 300px;
-      }
-    </style>
+    <link rel="stylesheet" href="blackjack.css" />
   </head>
 
   <body>
-    <div id="dealer">
-    </div>
+    <div id="page">
+      <div id="dealer">
+      </div>
 
-    <div id="stack">
-      <img src="images/card-stack.png" />
-    </div>
+      <div id="stack" title="muh">
+        <img src="images/card-stack.png" />
+      </div>
 
-    <div id="players">
+      <div id="players">
+      </div>
     </div>
   </body>
+
+  <script type="text/javascript">
+    $(document).ready(
+      function() {
+        new Game().match();
+      }
+    );
+
+    $(window).load(
+      function() {
+        $("#page").css("min-width", $(window).width()).css("min-height", $(window).height());
+      }
+    );
+  </script>
 </html>

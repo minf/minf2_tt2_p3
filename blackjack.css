@@ -1,0 +1,71 @@
+body {
+  text-align: center;
+  background: url(images/logo.jpg);
+  background-repeat: no-repeat;
+  background-color: #1e1b12;
+  background-position: 30px 30px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  font: 14px Arial;
+}
+
+#dealer {
+  display: inline-block;
+  width: 400px;
+  height: 120px;
+  background-color: #292929; 
+  opacity: 0.8;
+
+  border-top: 1px solid #777;
+  border-left: 1px solid #777;
+
+  text-shadow: 1px 1px #000;
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#players {
+  background-color: #292929;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120px;
+  opacity: 0.8;
+
+  border-top: 1px solid #777;
+
+  text-shadow: 1px 1px #000;
+
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}
+
+.card {
+   padding: 10px;
+   height: 100px;
+ }
+
+#stack {
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 20px;
+}
+
+#players {
+  text-align: left;
+}
+
+.player {
+  display: inline-block;
+  width: 300px;
+  height: 120px;
+}
+
