@@ -3,7 +3,7 @@ body {
   background: url(images/logo.jpg);
   background-repeat: no-repeat;
   background-color: #1e1b12;
-  background-position: 30px 30px;
+  background-position: 10px 0px;
 }
 
 * {
@@ -63,7 +63,7 @@ body {
   text-align: left;
 }
 
-.player {
+#players .player {
   display: inline-block;
   width: 300px;
   height: 120px;

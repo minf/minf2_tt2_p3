@@ -32,6 +32,10 @@ function Game(){
 
     // TODO clear hands and back to stack
   }
+
+  this.getCardstack = function() {
+    return this.cardstack;
+  }
 }
 
 

@@ -1,6 +1,9 @@
 <html>
   <head>
+    <title>Reinforcement Blackjack</title>
+
     <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
+    <script type="text/javascript" src="tooltip.js"></script>
     <script type="text/javascript" src="cardstack.js"></script>
     <script type="text/javascript" src="blackjack.js"></script>
     <script type="text/javascript" src="player.js"></script>
@@ -12,7 +15,7 @@
 
   <body>
     <div id="page">
-      <div id="dealer">
+      <div id="dealer" class="player">
       </div>
 
       <div id="stack" title="muh">
@@ -27,13 +30,29 @@
   <script type="text/javascript">
     $(document).ready(
       function() {
-        new Game().match();
+        var game = new Game();
+
+        game.match();
+
+        $(".card").live("mouseover", function() {
+          $(this).tooltip("Die Hand hat " + $(this).closest(".player")[0].player.hand.length + " Karten");
+        });
+
+        $(".card").live("mouseout", function() { $.hideTooltips(); });
+
+        $("#stack").live("mouseover", function() {
+          $(this).tooltip("Der Kartenstapel hat noch " + game.getCardstack().size() + " Karten");
+        });
+
+        $("#stack").live("mouseout", function() { $.hideTooltips(); });
       }
     );
 
     $(window).load(
       function() {
-        $("#page").css("min-width", $(window).width()).css("min-height", $(window).height());
+        $("#page")
+          .css("min-width", $(window).width())
+          .css("max-width", $(window).width());
       }
     );
   </script>

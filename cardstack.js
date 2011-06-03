@@ -48,5 +48,9 @@ function Cardstack(){
   this.receiveCards = function(cards){
     this.playedCards = this.playedCards.concat(cards);
   }
+
+  this.size = function() {
+    return this.stack.length;
+  }
 }
 
