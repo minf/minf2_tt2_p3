@@ -24,10 +24,10 @@
         var x = $(this).offset().left + $(this).outerWidth() / 2;
         x -= tooltip.outerWidth() / 2;
 
-        var y = $(this).offset().top - tooltip.outerHeight() / 2 - 20;
+        var y = $(this).offset().top - tooltip.outerHeight() / 2 - 25;
 
         if(y < 0)
-          y = $(this).offset().top + $(this).outerHeight() + 20;
+          y = $(this).offset().top + $(this).outerHeight() + 10;
 
         tooltip.css("left", x).css("top", y).css("opacity", 0.9).fadeIn("fast");
       }
@@ -35,7 +35,7 @@
   }
 
   $.hideTooltips = function() {
-    $(".tooltip").remove(); //fadeOut("fast", function() { $(this).remove(); });
+    $(".tooltip").fadeOut("fast", function() { $(this).remove(); });
   }
 })(jQuery);
 

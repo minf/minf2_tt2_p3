@@ -34,17 +34,29 @@
 
         game.match();
 
-        $(".card").live("mouseover", function() {
-          $(this).tooltip("Die Hand hat " + $(this).closest(".player")[0].player.getHand().length + " Karten");
+        $(".player").live("mouseover", function() {
+          $(this).tooltip("Die Hand hat " + $(this)[0].player.hand.length + " Karten");
         });
 
-        $(".card").live("mouseout", function() { $.hideTooltips(); });
+        $(".player").live("mouseout", function() { 
+          $.hideTooltips(); 
+        });
 
         $("#stack").live("mouseover", function() {
           $(this).tooltip("Der Kartenstapel hat noch " + game.getCardstack().size() + " Karten");
         });
 
-        $("#stack").live("mouseout", function() { $.hideTooltips(); });
+        $("#stack").live("mouseout", function() { 
+          $.hideTooltips(); 
+        });
+
+        $(".player").live("mouseover", function() {
+          $(this).css("border", "1px solid #fff");
+        });
+
+        $(".player").live("mouseout", function() {
+          $(this).css("border", "1px solid #888");
+        });
       }
     );
   </script>
