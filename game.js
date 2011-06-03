@@ -1,6 +1,6 @@
 
 function Game(){
-  this.players = [new Player(), new Player()];
+  this.players = [new Player(), new Player(), new Player()];
   this.dealer = new Dealer();
   this.cardstack = new Cardstack();
   this.cardstack.init();

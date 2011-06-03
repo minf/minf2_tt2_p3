@@ -1,9 +1,10 @@
+
 body {
   text-align: center;
   background: url(images/logo.jpg);
   background-repeat: no-repeat;
   background-color: #1e1b12;
-  background-position: 10px 0px;
+  background-position: 10px 5px;
 }
 
 * {
@@ -14,58 +15,51 @@ body {
 }
 
 #dealer {
+  text-align: left;
+  margin-top: 10px;
   display: inline-block;
-  width: 400px;
+  width: 250px;
   height: 120px;
   background-color: #292929; 
-  opacity: 0.8;
-
-  border-top: 1px solid #777;
-  border-left: 1px solid #777;
-
-  text-shadow: 1px 1px #000;
-
+  border: 1px solid #888;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
   border-radius: 10px;
 }
 
 #players {
-  background-color: #292929;
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
   height: 120px;
-  opacity: 0.8;
-
-  border-top: 1px solid #777;
-
+  padding: 10px;
   text-shadow: 1px 1px #000;
-
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  border-radius: 10px;
+  text-align: center;
 }
 
 .card {
-   padding: 10px;
-   height: 100px;
+  padding: 10px;
+  height: 100px;
  }
 
 #stack {
   display: inline-block;
   vertical-align: top;
   padding-left: 20px;
-}
-
-#players {
-  text-align: left;
+  margin-top: 5px;
 }
 
 #players .player {
+  background-color: #292929;
   display: inline-block;
-  width: 300px;
+  width: 250px;
   height: 120px;
+  border: 1px solid #888;
+  margin-right: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  text-align: left;
 }
 

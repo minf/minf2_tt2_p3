@@ -51,7 +51,7 @@ function Player(){
           $("<img src='images/Playing_card_" + card + ".png' class='card' />")
             .appendTo(self.getPlayerDiv())
             .css("position", "absolute")
-            .css("left", self.getPlayerDiv().offset().left + handSize * 20);
+            .css("margin-left", handSize * 20);
       });
     });
   }
