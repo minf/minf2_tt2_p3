@@ -14,16 +14,16 @@ function Game(){
     while(true) {
       var cardWanted = false;
 
-      $.each(this.players, function() { 
+      $.each(this.players, function() {
         if(this.hit()) {
-          this.receiveCard(self.cardstack.draw()); 
+          this.receiveCard(self.cardstack.draw());
           cardWanted = true;
         }
       });
 
       if(!cardWanted)
         break;
-    }      
+    }
 
     while(this.dealer.hit())
       this.dealer.receiveCard(this.cardstack.draw());

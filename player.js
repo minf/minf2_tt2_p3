@@ -7,7 +7,7 @@ function Player(){
   this.playerDiv[0].player = this;
 
   $("#players").append(this.playerDiv);
-  
+
   this.getHand = function(){
     return this.hand;
   }
@@ -19,6 +19,7 @@ function Player(){
   this.getPlayerDiv = function() {
     return this.playerDiv;
   }
+
   this.receiveCard = function(card){
     this.hand.push(card);
 
