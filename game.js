@@ -38,4 +38,7 @@ function Game(){
   }
 }
 
+// disable animations in training mode
+Game.trainingMode = false;
+
 

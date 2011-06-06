@@ -5,7 +5,9 @@ function Dealer(){
   $("#dealer")[0].player = this;
 
   this.hit = function(){
-    return this.handValue() < 17;
+    var willHit = this.handValue() < 17;
+    this.hitNotify(willHit);
+    return willHit;
   }
 
   this.handValue = function(){

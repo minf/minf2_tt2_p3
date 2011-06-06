@@ -35,7 +35,7 @@
         game.match();
 
         $(".card").live("mouseover", function() {
-          $(this).tooltip("Die Hand hat " + $(this).closest(".player")[0].player.hand.length + " Karten");
+          $(this).tooltip("Die Hand hat " + $(this).closest(".player")[0].player.getHand().length + " Karten");
         });
 
         $(".card").live("mouseout", function() { $.hideTooltips(); });

@@ -20,7 +20,7 @@ body {
   display: inline-block;
   width: 250px;
   height: 120px;
-  background-color: #292929; 
+  background-color: #292929;
   border: 1px solid #888;
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
@@ -61,5 +61,17 @@ body {
   -moz-border-radius: 10px;
   border-radius: 10px;
   text-align: left;
+}
+
+.notify {
+  position: absolute;
+  font-weight: bold;
+  background-color: #40A040;
+  border: 1px solid #888;
+  margin: 5px;
+  padding: 2px 4px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
 }
 
