@@ -72,12 +72,13 @@ function Player(){
           .css("top", $("#stack").offset().top)
           .animate({ left: self.getPlayerDiv().offset().left + handSize * 20, top: self.getPlayerDiv().offset().top }, 300, function() {
             $(this).remove();
-            $(doc).dequeue();
 
             $("<img src='images/Playing_card_" + card + ".png' class='card' />")
               .appendTo(self.getPlayerDiv())
               .css("position", "absolute")
               .css("margin-left", handSize * 20);
+
+            $(doc).dequeue();
         });
       });
     }
