@@ -9,6 +9,7 @@
     <script type="text/javascript" src="player.js"></script>
     <script type="text/javascript" src="dealer.js"></script>
     <script type="text/javascript" src="game.js"></script>
+    <script type="text/javascript" src="human_player.js"></script>
 
     <link rel="stylesheet" href="blackjack.css" />
   </head>
@@ -18,7 +19,7 @@
       <div id="dealer" class="player">
       </div>
 
-      <div id="stack" title="muh">
+      <div id="stack">
         <img src="images/card-stack.png" />
       </div>
 
@@ -34,8 +35,8 @@
 
         game.match();
 
-        $(".player").live("mouseover", function() {
-          $(this).tooltip("Die Hand hat " + $(this)[0].player.hand.length + " Karten");
+        $("[title]").live("mouseover", function() {
+          $(this).tooltip($(this).attr("title"));
         });
 
         $(".player").live("mouseout", function() { 
@@ -43,7 +44,7 @@
         });
 
         $("#stack").live("mouseover", function() {
-          $(this).tooltip("Der Kartenstapel hat noch " + game.getCardstack().size() + " Karten");
+          // $(this).tooltip("Der Kartenstapel hat noch " + game.getCardstack().size() + " Karten");
         });
 
         $("#stack").live("mouseout", function() { 
@@ -51,11 +52,11 @@
         });
 
         $(".player").live("mouseover", function() {
-          $(this).css("border", "1px solid #fff");
+          $(this).css("border-color", "#fff");
         });
 
         $(".player").live("mouseout", function() {
-          $(this).css("border", "1px solid #888");
+          $(this).css("border-color", "#888");
         });
       }
     );

@@ -75,3 +75,7 @@ body {
   border-radius: 5px;
 }
 
+.active {
+  background-color: #3b3e7e !important;
+}
+
