@@ -116,6 +116,6 @@ function Game(){
   }
 }
 
-Game.speed = 2;
+Game.speed = 1;
 
 

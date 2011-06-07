@@ -68,14 +68,21 @@ function Player(){
   this.hit = function(callbackHit, callbackStick) {
     var willHit = this.handValue() < 17;
 
-    this.hitNotify(willHit, callbackHit, callbackStick);
+    if(this.handValue() < 21)
+      this.hitNotify(willHit, callbackHit, callbackStick);
+    else {
+      if(callbackStick)
+        callbackStick();
+    }
 
     return willHit;
   }
 
   this.active = function() {
-    $(".player").removeClass("active");
-    this.getPlayerDiv().addClass("active");
+    if(this.handValue() < 21) {
+      $(".player").removeClass("active");
+      this.getPlayerDiv().addClass("active");
+    }
   }
 
   this.hitNotify = function(hit, callbackHit, callbackStick) {
@@ -89,8 +96,6 @@ function Player(){
       .delay(300 * Game.speed)
       .fadeOut(100 * Game.speed, function(){
         $(this).remove();
-
-        self.getPlayerDiv().attr("title", self.handValue());
 
         if(callbackHit && hit)
           callbackHit();
@@ -120,6 +125,11 @@ function Player(){
           .css("margin-left", handSize * 20);
 
         self.hand.push(card);
+
+        if(self.handValue() > 21)
+          self.loser();
+
+        self.getPlayerDiv().attr("title", "Wert der Hand: " + self.handValue());
 
         if(callback)
           callback();
