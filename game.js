@@ -11,29 +11,44 @@ function Game(){
     // hand out a card to each player and to the dealer
 
     function firstCards(callback) {
-      $.each(self.players, function(){ 
+      $.each(self.players, function(){
         var player = this;
 
         $(document).queue(function(next) {
           player.receiveCard(self.cardstack.draw(), function() {
             next();
-          }); 
+          });
         });
       });
 
       $(document).queue(function(next) {
         self.dealer.receiveCard(self.cardstack.draw(), function() {
-          if(callback)
-            callback();
-
           next();
         });
+      });
+
+      // The player is dealt an initial tow card hand [..]
+      // (according to http://en.wikipedia.org/wiki/Blackjack)
+      $.each(self.players, function(){
+        var player = this;
+
+        $(document).queue(function(next) {
+          player.receiveCard(self.cardstack.draw(), function() {
+            next();
+          });
+        });
+      });
+
+      $(document).queue(function(next){
+        if(callback)
+          callback();
+        next();
       });
     }
 
     // recursively ask players for one more card until no one hits
 
-    function askPlayers(callback) {  
+    function askPlayers(callback) {
       var cardWanted = false;
 
       $.each(self.players, function() {
@@ -90,14 +105,18 @@ function Game(){
     function winnersAndLosers() {
       var dealer = self.dealer;
       var dealerHandValue = dealer.handValue();
+      var dealerLose = false;
 
       $.each(self.players, function() {
         var player = this;
 
         var hasWon = player.handValue() <= 21 && (player.handValue() > dealerHandValue || dealerHandValue > 21);
+        dealerLose = hasWon || dealerLose;
 
         hasWon ? player.winner() : player.loser();
       });
+
+      if(dealerLose) dealer.loser(); else dealer.winner();
     }
 
     firstCards(function() {

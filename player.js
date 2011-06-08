@@ -42,11 +42,15 @@ function Player(){
   }
 
   this.winner = function() {
-    this.getPlayerDiv().css("background-color", "#156400");
+    this.getPlayerDiv()
+      .removeClass("active")
+      .css("background-color", "#156400");
   }
 
   this.loser = function() {
-    this.getPlayerDiv().css("background-color", "#a40000");
+    this.getPlayerDiv()
+      .removeClass("active")
+      .css("background-color", "#a40000");
   }
 
   this.getHand = function(){
@@ -66,16 +70,24 @@ function Player(){
   }
 
   this.hit = function(callbackHit, callbackStick) {
-    var willHit = this.handValue() < 17;
-
-    if(this.handValue() < 21)
-      this.hitNotify(willHit, callbackHit, callbackStick);
-    else {
+    if(this.handValue() >= 21) {
       if(callbackStick)
         callbackStick();
+
+      return false;
     }
 
+    this.active();
+
+    var willHit = this.hitDecision();
+
+    this.hitNotify(willHit, callbackHit, callbackStick);
+
     return willHit;
+  }
+
+  this.hitDecision = function(){
+    return this.handValue() < 17;
   }
 
   this.active = function() {

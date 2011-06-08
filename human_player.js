@@ -9,21 +9,10 @@ function HumanPlayer() {
 
   $("#players").append(this.playerDiv);
 
-  this.hit = function(callbackHit, callbackStick) {
-    if(this.handValue() >= 21) {
-      if(callbackStick)
-        callbackStick();
-
-      return false;
-    }
-
-    this.active();
-
-    var willHit = confirm("Hit?");
-
-    this.hitNotify(willHit, callbackHit, callbackStick);
-
-    return willHit;
+  this.hitDecision = function() {
+    if(this.alreadySticked) return false;
+    this.alreadySticked = !confirm("Hit?");
+    return !this.alreadySticked;
   }
 }
 
