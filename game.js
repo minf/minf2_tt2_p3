@@ -103,7 +103,7 @@ function Game(){
 
     // match is over, notify winners and losers
 
-    function winnersAndLosers() {
+    function winnersAndLosers(callback) {
       var dealer = self.dealer;
       var dealerHandValue = dealer.handValue();
 
@@ -115,17 +115,34 @@ function Game(){
 
         hasWon ? player.winner() : (hasDraw ? player.draw() : player.loser());
       });
+
+      // is this leaky? building an infinite stack..
+      if(callback && confirm("Another game?"))
+      {
+        $.each(self.players, function(){
+          self.cardstack.receiveCards(this.getHand());
+          this.reset();
+        });
+
+        self.cardstack.receiveCards(self.dealer.getHand());
+        self.dealer.reset();
+
+        callback();
+      }
     }
 
     firstCards(function() {
       askPlayers(function() {
         askDealer(function() {
-          winnersAndLosers();
+          winnersAndLosers(function(){
+            $(document).queue(function(next){
+              self.match();
+              next();
+            });
+          });
         });
       });
     });
-
-    // TODO clear hands and back to stack
   }
 
   this.getCardstack = function() {

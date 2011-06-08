@@ -46,6 +46,13 @@ function Player(){
     return sum;
   }
 
+  this.reset = function(){
+    this.getPlayerDiv()
+      .css("background-color", "")
+      .empty();
+    this.clearHand();
+  }
+
   this.draw = function(){
     this.getPlayerDiv()
       .removeClass("active")

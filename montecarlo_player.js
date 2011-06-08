@@ -52,7 +52,15 @@ function MonteCarloPlayer() {
     return action;
   }
 
- this.draw = function(){
+  this.reset = function(){
+    this.getPlayerDiv()
+      .css("background-color", "")
+      .empty();
+    this.episode = [];
+    this.clearHand();
+  }
+
+  this.draw = function(){
     this.getPlayerDiv()
       .removeClass("active")
       .css("background-color", "#e3ad00");

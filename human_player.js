@@ -9,6 +9,14 @@ function HumanPlayer() {
 
   $("#players").append(this.playerDiv);
 
+  this.reset = function(){
+    this.getPlayerDiv()
+      .css("background-color", "")
+      .empty();
+    this.alreadySticked = false;
+    this.clearHand();
+  }
+
   this.hitDecision = function() {
     if(this.alreadySticked) return false;
     this.alreadySticked = !confirm("Hit?");
