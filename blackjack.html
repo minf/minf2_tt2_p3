@@ -39,16 +39,16 @@
           $(this).tooltip($(this).attr("title"));
         });
 
-        $(".player").live("mouseout", function() { 
-          $.hideTooltips(); 
+        $(".player").live("mouseout", function() {
+          $.hideTooltips();
         });
 
         $("#stack").live("mouseover", function() {
           $(this).tooltip("Der Kartenstapel hat noch " + game.getCardstack().size() + " Karten");
         });
 
-        $("#stack").live("mouseout", function() { 
-          $.hideTooltips(); 
+        $("#stack").live("mouseout", function() {
+          $.hideTooltips();
         });
 
         $(".player").live("mouseover", function() {
