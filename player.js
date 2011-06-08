@@ -32,13 +32,24 @@ function Player(){
       }
     });
 
+    this.usableAce = false;
+
     while(aces > 0){
       if(sum + aces*11 <= 21)
+      {
+        this.usableAce = true;
         return sum + aces*11;
+      }
       aces--;
       sum += 1;
     }
     return sum;
+  }
+
+  this.draw = function(){
+    this.getPlayerDiv()
+      .removeClass("active")
+      .css("background-color", "#e3ad00");
   }
 
   this.winner = function() {

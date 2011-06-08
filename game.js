@@ -1,6 +1,6 @@
 
 function Game(){
-  this.players = [ new Player(), new Player(), new HumanPlayer() ];
+  this.players = [ new Player(), new MonteCarloPlayer()];//, new HumanPlayer() ];
   this.dealer = new Dealer();
   this.cardstack = new Cardstack();
   this.cardstack.init();
@@ -50,6 +50,7 @@ function Game(){
 
     function askPlayers(callback) {
       var cardWanted = false;
+      var dealerCard = self.dealer.getFirstCard();
 
       $.each(self.players, function() {
         var player = this;
@@ -105,18 +106,15 @@ function Game(){
     function winnersAndLosers() {
       var dealer = self.dealer;
       var dealerHandValue = dealer.handValue();
-      var dealerLose = false;
 
       $.each(self.players, function() {
         var player = this;
 
         var hasWon = player.handValue() <= 21 && (player.handValue() > dealerHandValue || dealerHandValue > 21);
-        dealerLose = hasWon || dealerLose;
+        var hasDraw = !hasWon && (dealerHandValue <= 21 && player.handValue() == dealerHandValue);
 
-        hasWon ? player.winner() : player.loser();
+        hasWon ? player.winner() : (hasDraw ? player.draw() : player.loser());
       });
-
-      if(dealerLose) dealer.loser(); else dealer.winner();
     }
 
     firstCards(function() {

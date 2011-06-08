@@ -11,6 +11,10 @@ function Dealer(){
   this.getPlayerDiv = function() {
     return $("#dealer");
   }
+
+  this.getFirstCard = function(){
+    return this.hand.length > 0 ? this.hand[0] : "";
+  }
 }
 
 Dealer.prototype = new Player();
