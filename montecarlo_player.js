@@ -72,16 +72,16 @@ function MonteCarloPlayer() {
       for(var p2 = 0; p2 <= 1; p2++) {
         var stateIndex = this.stateIndexFor(p1, d1, p2);
 
-        this.pi[stateIndex] = Math.random() < 0.5;
+        this.Q[0][stateIndex] = Math.random(); // hit
+        this.Q[1][stateIndex] = Math.random(); // stick
 
-        this.Q[0][stateIndex] = 0.5;
-        this.Q[1][stateIndex] = 0.5;
+        this.pi[stateIndex] = this.Q[0][stateIndex] > this.Q[1][stateIndex]; // hit better than stick
 
-        this.sumReturns[0][stateIndex] = 0;
-        this.sumReturns[1][stateIndex] = 0;
+        this.sumReturns[0][stateIndex] = 0; // hit
+        this.sumReturns[1][stateIndex] = 0; // stick
 
-        this.numReturns[0][stateIndex] = 0;
-        this.numReturns[1][stateIndex] = 0;
+        this.numReturns[0][stateIndex] = 0; // hit
+        this.numReturns[1][stateIndex] = 0; // stick
       }
     }
   }
@@ -96,7 +96,7 @@ function MonteCarloPlayer() {
     var p1 = v; // players sum (12-21)
     var d1 = $("#dealer")[0].player.handValue(); // dealers showing card (ace-10)
     var p2 = ace ? 1 : 0; // usable ace?
-
+    
     var stateIndex = this.stateIndexFor(p1, d1, p2);
 
     var action = this.pi[stateIndex];
@@ -133,7 +133,8 @@ function MonteCarloPlayer() {
     //   Q(s, a) <- average(Returns(s, a))
 
     for(var i = 0; i < this.episode.length; i++) {
-      var s = this.episode[i].s, a = this.episode[i].a ? 1 : 0;
+      var s = this.episode[i].s;
+      var a = this.episode[i].a ? 0 : 1; // hit => 0, stick => 1
 
       // update returns for (s, a)
 
@@ -176,10 +177,7 @@ function MonteCarloPlayer() {
         for(var p2 = 0; p2 <= 1; p2++) {
           var stateIndex = this.stateIndexFor(p1, d1, p2);
 
-          if(this.Q[0][stateIndex] > this.Q[1][stateIndex]) // hit better than stick?
-            this.pi[stateIndex] = true;
-          else
-            this.pi[stateIndex] = false;
+          this.pi[stateIndex] = this.Q[0][stateIndex] > this.Q[1][stateIndex]; // hit better than stick?
         }
       }
     }
