@@ -81,11 +81,11 @@
                 .css("top", 50)
                 .css("width", $(window).width() - 100)
                 .css("height", $(window).height() - 100)
-                .text(dump);
+                .val(dump);
             }
 
             if(e.keyCode == 76) { // 'l' key: load copy/pasted dump into monte carlo player
-              var dump = $("textarea").text();
+              var dump = $("textarea").val();
 
               $(".monte-carlo-player")[0].player.load(dump);
 
