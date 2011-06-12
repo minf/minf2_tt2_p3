@@ -3,9 +3,7 @@
 Monte Carlo ES
 
 States:
-┌─ no usable ace ────┐ ┌─ usable ace ────────┐
-<12 12 ... 19 20 >=21   <12 12 ... 19 20 >=21  <- hand value
-  0  1 ...  8  9   10    11 12 ... 19 20   21  <- state id
+  see below
 
 Actions:
 - hit = true
@@ -17,7 +15,6 @@ Reward:
   0  if draw
 
 */
-
 
 function MonteCarloPlayer() {
   this.hand = [];
@@ -31,24 +28,66 @@ function MonteCarloPlayer() {
   this.episode = [];
 
   this.pi = [];
-  this.Q = [[], []];
-  this.Returns = [[], []];
 
-  for(var i = 0; i <= 21 /*states*/; i++){
-    this.pi.push(Math.random()<0.5);
-    this.Q[0][i] = 0.5; // hit
-    this.Q[1][i] = 0.5; // stick
+  this.Q = [[], []];
+
+  // splitting into sumReturns and numReturns lets us calculate
+  // the average in constant time: average = sumReturns / numReturns
+
+  this.sumReturns = [[], []];
+  this.numReturns = [[], []];
+
+  // sutton:
+  // the player makes decisions on the basis of three variables.
+  // his current sum (12-21), the dealer's one showing card (ace-10),
+  // and whether or not he holds a usable ace. this makes a total
+  // of 200 states.
+
+  // player: 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 (10 states)
+  // dealer: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 (10 states)
+  // dealer: usable ace or not (2 states)
+  // 2 * 10 * 10 => 200 states
+
+  this.stateIndexFor = function(p1, d1, p2) {
+    return (p1 << 8) + (d1 << 4) + p2;
+  }
+
+  for(var p1 = 0; p1 < 10; p1++) {
+    for(var d1 = 0; d1 < 10; d1++) {
+      for(var p2 = 0; p2 < 2; p2++) {
+        var stateIndex = this.stateIndexFor(p1, d1, p2);
+
+        this.pi[stateIndex] = Math.random() < 0.5;
+
+        this.Q[0][stateIndex] = 0.5;
+        this.Q[1][stateIndex] = 0.5;
+
+        this.sumReturns[0][stateIndex] = 0;
+        this.sumReturns[1][stateIndex] = 0;
+
+        this.numReturns[0][stateIndex] = 0;
+        this.numReturns[1][stateIndex] = 0;
+      }
+    }
   }
 
   this.hitDecision = function(){
     var v = this.handValue();
     var ace = this.usableAce;
 
-    var stateId = v < 12 ? 0 : ( v > 21 ? 10 : v - 11);
-    if (ace) stateId += 11;
+    if(v < 12) // always hit
+      return true;
 
-    var action = this.pi[stateId];
-    this.episode.push({ s:stateId, a:action });
+    var p1 = v; // players sum (12-21)
+    var d1 = $("#dealer")[0].player.handValue(); // dealers showing card (ace-10)
+    var p2 = ace ? 1 : 0; // usable ace?
+
+    var stateIndex = this.stateIndexFor(p1, d1, p2);
+
+    var action = this.pi[stateIndex];
+
+    this.episode.push({ s: stateIndex, a: action });
+
     return action;
   }
 
@@ -56,7 +95,9 @@ function MonteCarloPlayer() {
     this.getPlayerDiv()
       .css("background-color", "")
       .empty();
+
     this.episode = [];
+
     this.clearHand();
   }
 
@@ -65,7 +106,31 @@ function MonteCarloPlayer() {
       .removeClass("active")
       .css("background-color", "#e3ad00");
 
-    // TODO: reset episode
+    this.processEpisode(0);
+  }
+
+  this.processEpisode = function(reward) {
+    // for each pair s, a appearing in the episode:
+    //   R <- return following the first occurrence of s, a
+    //   Append R to Returns(s, a)
+    //   Q(s, a) <- average(Returns(s, a))
+
+    for(var i = 0; i < this.episode.length; i++) {
+      var s = this.episode[i].s, a = this.episode[i].a ? 1 : 0;
+
+      // update returns for (s, a)
+
+      this.sumReturns[a][s] += reward;
+      this.numReturns[a][s] += 1;
+
+      // calculate average
+
+      this.Q[a][s] = this.average(this.sumReturns[a][s] / this.numReturns[a][s]);
+    }
+
+    this.improvePolicy();
+
+    this.reset();
   }
 
   this.winner = function() {
@@ -73,7 +138,7 @@ function MonteCarloPlayer() {
       .removeClass("active")
       .css("background-color", "#156400");
 
-    // TODO: Reward +1, improve policy, reset episode
+    this.processEpisode(1);
   }
 
   this.loser = function() {
@@ -81,11 +146,28 @@ function MonteCarloPlayer() {
       .removeClass("active")
       .css("background-color", "#a40000");
 
-    // TODO: Reward -1, improve policy, reset episode
+    this.processEpisode(-1);
   }
 
   this.improvePolicy = function(){
-    // TODO:
+    // for each s in the episode:
+    //   pi(s) <- arg max_a Q(s, a)
+
+    // for simplicity we check all states of policy,
+    // not just states visited in current episode
+
+    for(var p1 = 0; p1 < 10; p1++) {
+      for(var d1 = 0; d1 < 10; d1++) {
+        for(var p2 = 0; p2 < 2; p2++) {
+          var stateIndex = this.stateIndexFor(p1, d1, p2);
+
+          if(this.Q[0][stateIndex] > this.Q[1][stateIndex]) // hit better than stick?
+            this.pi[stateIndex] = true;
+          else
+            this.pi[stateIndex] = false;
+        }
+      }
+    }
   }
 }
 
