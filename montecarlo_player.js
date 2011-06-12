@@ -59,12 +59,12 @@ function MonteCarloPlayer() {
   // 2 * 10 * 10 => 200 states
 
   this.stateIndexFor = function(p1, d1, p2) {
-    return (p1 << 8) + (d1 << 4) + p2;
+    return ((p1 - 12) << 8) + ((d1 - 2) << 4) + p2;
   }
 
-  for(var p1 = 0; p1 < 10; p1++) {
-    for(var d1 = 0; d1 < 10; d1++) {
-      for(var p2 = 0; p2 < 2; p2++) {
+  for(var p1 = 12; p1 <= 21; p1++) {
+    for(var d1 = 2; d1 <= 11; d1++) {
+      for(var p2 = 0; p2 <= 1; p2++) {
         var stateIndex = this.stateIndexFor(p1, d1, p2);
 
         this.pi[stateIndex] = Math.random() < 0.5;
@@ -164,9 +164,9 @@ function MonteCarloPlayer() {
     // for simplicity we check all states of policy,
     // not just states visited in current episode
 
-    for(var p1 = 0; p1 < 10; p1++) {
-      for(var d1 = 0; d1 < 10; d1++) {
-        for(var p2 = 0; p2 < 2; p2++) {
+    for(var p1 = 12; p1 <= 21; p1++) {
+      for(var d1 = 2; d1 <= 11; d1++) {
+        for(var p2 = 0; p2 <= 1; p2++) {
           var stateIndex = this.stateIndexFor(p1, d1, p2);
 
           if(this.Q[0][stateIndex] > this.Q[1][stateIndex]) // hit better than stick?
