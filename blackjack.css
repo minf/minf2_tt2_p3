@@ -79,3 +79,9 @@ body {
   background-color: #3b3e7e !important;
 }
 
+textarea {
+  opacity: 0.7;
+  border: 15px solid #000;
+  padding: 10px;
+}
+
