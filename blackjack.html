@@ -59,7 +59,43 @@
         $(".player").live("mouseout", function() {
           $(this).css("border-color", "#888");
         });
+
+        // dump and load
+
+   			$(window).keydown(
+				  function(e) {
+            if(e.keyCode == 27) { // 'esc' key: hide dump
+              game.unpause();
+
+              $("textarea").hide();
+            }
+
+            if(e.keyCode == 68) { // 'd' key: dump monte carlo player
+              game.pause();
+
+              var dump = $(".monte-carlo-player")[0].player.dump();
+
+              $("textarea")
+                .show()
+                .css("left", 0)
+                .css("top", 0)
+                .css("width", $(window).width())
+                .css("height", $(window).height())
+                .text(dump);
+            }
+
+            if(e.keyCode == 76) { // 'l' key: load copy/pasted dump into monte carlo player
+              var dump = $("textarea").text();
+
+              $(".monte-carlo-player")[0].player.load(dump);
+
+              alert("loaded");
+            }
+          }
+        );
       }
     );
   </script>
+
+  <textarea style="display: none; position: absolute; color: #000"></textarea>
 </html>

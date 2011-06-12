@@ -19,7 +19,7 @@ Reward:
 function MonteCarloPlayer() {
   this.hand = [];
 
-  this.playerDiv = $("<div class='player'></div>");
+  this.playerDiv = $("<div class='player monte-carlo-player'></div>");
 
   this.playerDiv[0].player = this;
 
@@ -40,11 +40,16 @@ function MonteCarloPlayer() {
   // serialization
 
   this.dump = function() {
-    // TODO
+    return JSON.stringify({ pi: this.pi, Q: this.Q, sumReturns: this.sumReturns, numReturns: this.numReturns });
   }
 
   this.load = function(str) {
-    // TODO
+    var o = JSON.parse(str);
+
+    this.pi = o.pi;
+    this.Q = o.Q;
+    this.sumReturns = o.sumReturns;
+    this.numReturns = o.numReturns;
   }
 
   // sutton:
@@ -59,7 +64,7 @@ function MonteCarloPlayer() {
   // 2 * 10 * 10 => 200 states
 
   this.stateIndexFor = function(p1, d1, p2) {
-    return ((p1 - 12) << 8) + ((d1 - 2) << 4) + p2;
+    return ((p1 - 12) << 5) + ((d1 - 2) << 1) + p2;
   }
 
   for(var p1 = 12; p1 <= 21; p1++) {
@@ -109,6 +114,8 @@ function MonteCarloPlayer() {
     this.episode = [];
 
     this.clearHand();
+
+    $("textarea").text(this.dump());
   }
 
   this.draw = function(){

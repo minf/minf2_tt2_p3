@@ -5,7 +5,12 @@ function Game(){
   this.cardstack = new Cardstack();
   this.cardstack.init();
 
+  this.numEpisodes = 0;
+  this.paused = false;
+
   this.match = function(){
+    document.title = (this.numEpisodes++) + " Episodes played";
+
     var self = this;
 
     // hand out a card to each player and to the dealer
@@ -117,7 +122,7 @@ function Game(){
       });
 
       // is this leaky? building an infinite stack..
-      if(callback && confirm("Another game?"))
+      if(Game.speed == 0 || confirm("Another game?"))
       {
         $.each(self.players, function(){
           self.cardstack.receiveCards(this.getHand());
@@ -127,7 +132,8 @@ function Game(){
         self.cardstack.receiveCards(self.dealer.getHand());
         self.dealer.reset();
 
-        callback();
+        if(callback)
+          callback();
       }
     }
 
@@ -136,7 +142,9 @@ function Game(){
         askDealer(function() {
           winnersAndLosers(function(){
             $(document).queue(function(next){
-              self.match();
+              if(!self.paused)
+                self.match();
+
               next();
             });
           });
@@ -145,11 +153,20 @@ function Game(){
     });
   }
 
+  this.pause = function() {
+    this.paused = true;
+  }
+
+  this.unpause = function() {
+    this.paused = false;
+    this.match();
+  }
+
   this.getCardstack = function() {
     return this.cardstack;
   }
 }
 
-Game.speed = 1;
+Game.speed = 0;
 
 
