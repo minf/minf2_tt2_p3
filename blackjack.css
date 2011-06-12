@@ -83,5 +83,8 @@ textarea {
   opacity: 0.7;
   border: 15px solid #000;
   padding: 10px;
+  color: #333;
+  font-weight: bold;
+  font-size: 12px;
 }
 
