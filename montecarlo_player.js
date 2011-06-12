@@ -39,11 +39,11 @@ function MonteCarloPlayer() {
 
   // serialization
 
-  this.serialize = function() {
+  this.dump = function() {
     // TODO
   }
 
-  this.deserialize = function(str) {
+  this.load = function(str) {
     // TODO
   }
 
@@ -139,8 +139,6 @@ function MonteCarloPlayer() {
     }
 
     this.improvePolicy();
-
-    this.reset();
   }
 
   this.winner = function() {
