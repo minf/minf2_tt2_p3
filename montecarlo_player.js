@@ -37,6 +37,16 @@ function MonteCarloPlayer() {
   this.sumReturns = [[], []];
   this.numReturns = [[], []];
 
+  // serialization
+
+  this.serialize = function() {
+    // TODO
+  }
+
+  this.deserialize = function(str) {
+    // TODO
+  }
+
   // sutton:
   // the player makes decisions on the basis of three variables.
   // his current sum (12-21), the dealer's one showing card (ace-10),
@@ -125,7 +135,7 @@ function MonteCarloPlayer() {
 
       // calculate average
 
-      this.Q[a][s] = this.average(this.sumReturns[a][s] / this.numReturns[a][s]);
+      this.Q[a][s] = this.sumReturns[a][s] / this.numReturns[a][s];
     }
 
     this.improvePolicy();
