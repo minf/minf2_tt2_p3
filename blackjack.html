@@ -11,6 +11,7 @@
     <script type="text/javascript" src="game.js"></script>
     <script type="text/javascript" src="human_player.js"></script>
     <script type="text/javascript" src="montecarlo_player.js"></script>
+    <script type="text/javascript" src="highcharts/highcharts.js"></script>
 
     <link rel="stylesheet" href="blackjack.css" />
   </head>
@@ -60,7 +61,7 @@
           $(this).css("border-color", "#888");
         });
 
-        // dump and load
+        var dealerHand = 2;
 
    			$(window).keydown(
 				  function(e) {
@@ -68,6 +69,8 @@
               game.unpause();
 
               $("textarea").hide();
+
+              $("#chart").hide();
             }
 
             if(e.keyCode == 68) { // 'd' key: dump monte carlo player
@@ -91,11 +94,82 @@
 
               alert("loaded");
             }
+
+            // draw chart of Q values
+
+            function drawChart() {
+              game.pause();
+
+              $("#chart")
+                .css("left", 50)
+                .css("top", 50)
+                .css("width", $(window).width() - 100)
+                .css("height", $(window).height() - 100)
+                .show();
+
+              var dataHit = [];
+              var dataStick = [];
+
+              for(var p1 = 12; p1 <= 21; p1++) {
+                var mcPlayer = $(".monte-carlo-player")[0].player;
+
+                dataHit.push(mcPlayer.Q[0][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
+                dataStick.push(mcPlayer.Q[1][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
+              }
+
+              new Highcharts.Chart({
+                chart: {
+                  renderTo: "chart",
+                  defaultSeriesType: "line",
+                  marginRight: 130,
+                  marginBottom: 25
+                },
+                title: {
+                  text: "Monte Carlo ES Strategy (Dealer: " + dealerHand + ")",
+                  x: -20 //center
+                },
+                xAxis: {
+                  categories: [ "12", "13", "14", "15", "16", "17", "18", "19", "20", "21" ]
+                },
+                yAxis: {
+                  title: {
+                    text: "Q"
+                  },
+                  plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: "#808080"
+                  }]
+                },
+                series: [{
+                  name: "Q(Hit)",
+                  data: dataHit
+                }, {
+                  name: 'Q(Stick)',
+                  data: dataStick
+                }]
+              });
+            }
+
+            if(e.keyCode == 67) // 'c'
+              drawChart();
+
+            if(e.keyCode == 38) { // 'up'
+              dealerHand++;
+              drawChart();
+            }              
+
+            if(e.keyCode == 40) { // 'down'
+              dealerHand--;
+              drawChart();
+            }
           }
         );
       }
     );
   </script>
 
-  <textarea style="display: none; position: absolute"></textarea>
+  <textarea></textarea>
+
+  <div id="chart"></div>
 </html>

@@ -86,5 +86,13 @@ textarea {
   color: #333;
   font-weight: bold;
   font-size: 12px;
+  position: absolute;
+  display: none;
+}
+
+#chart {
+  opacity: 0.9;
+  display: none;
+  position: absolute;
 }
 
