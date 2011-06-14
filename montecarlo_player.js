@@ -60,7 +60,7 @@ function MonteCarloPlayer() {
 
   // player: 12, 13, 14, 15, 16, 17, 18, 19, 20, 21 (10 states)
   // dealer: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 (10 states)
-  // dealer: usable ace or not (2 states)
+  // player: usable ace or not (2 states)
   // 2 * 10 * 10 => 200 states
 
   this.stateIndexFor = function(p1, d1, p2) {
@@ -93,10 +93,13 @@ function MonteCarloPlayer() {
     if(v < 12) // always hit
       return true;
 
+    if(v > 21) // always stick
+      return false;
+
     var p1 = v; // players sum (12-21)
     var d1 = $("#dealer")[0].player.handValue(); // dealers showing card (ace-10)
     var p2 = ace ? 1 : 0; // usable ace?
-    
+
     var stateIndex = this.stateIndexFor(p1, d1, p2);
 
     var action = this.pi[stateIndex];
