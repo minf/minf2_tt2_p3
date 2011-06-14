@@ -19,6 +19,8 @@ function HumanPlayer() {
 
   this.hitDecision = function() {
     if(this.alreadySticked) return false;
+    if(this.handValue() > 21) return false;
+
     this.alreadySticked = !confirm("Hit?");
     return !this.alreadySticked;
   }

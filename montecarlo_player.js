@@ -72,6 +72,9 @@ function MonteCarloPlayer() {
       for(var p2 = 0; p2 <= 1; p2++) {
         var stateIndex = this.stateIndexFor(p1, d1, p2);
 
+//         // initial strategy: hit for < 20
+//         this.Q[0][stateIndex] = p1<20?1:0; // hit
+//         this.Q[1][stateIndex] = p1<20?0:1; // stick
         this.Q[0][stateIndex] = Math.random(); // hit
         this.Q[1][stateIndex] = Math.random(); // stick
 
@@ -103,6 +106,10 @@ function MonteCarloPlayer() {
     var stateIndex = this.stateIndexFor(p1, d1, p2);
 
     var action = this.pi[stateIndex];
+
+    // epsilon?
+    if(Math.random() > 0.8)
+      action = !action;
 
     this.episode.push({ s: stateIndex, a: action });
 
@@ -148,6 +155,9 @@ function MonteCarloPlayer() {
 
       this.Q[a][s] = this.sumReturns[a][s] / this.numReturns[a][s];
     }
+
+    // prevent using episode more than once
+    this.episode = [];
 
     this.improvePolicy();
   }

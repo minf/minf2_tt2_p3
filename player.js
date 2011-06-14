@@ -88,12 +88,12 @@ function Player(){
   }
 
   this.hit = function(callbackHit, callbackStick) {
-    if(this.handValue() >= 21) {
-      if(callbackStick)
-        callbackStick();
-
-      return false;
-    }
+//     if(this.handValue() >= 21) {
+//       if(callbackStick)
+//         callbackStick();
+//
+//       return false;
+//     }
 
     this.active();
 
@@ -105,7 +105,8 @@ function Player(){
   }
 
   this.hitDecision = function(){
-    return this.handValue() < 17;
+    var v = this.handValue();
+    return v < 17;
   }
 
   this.active = function() {
