@@ -110,22 +110,37 @@
               var dataHit = [];
               var dataStick = [];
 
-              for(var p1 = 12; p1 <= 21; p1++) {
-                var mcPlayer = $(".monte-carlo-player")[0].player;
+              if(dealerHand == 1){
+                for(var p1 = 12; p1 <= 21; p1++){
+                  for(var d1 = 2; d1 <= 11; d1++){
+                    var mcPlayer = $(".monte-carlo-player")[0].player;
+                    var stateIndex = mcPlayer.stateIndexFor(p1, d1, 0);
 
-                dataHit.push(mcPlayer.Q[0][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
-                dataStick.push(mcPlayer.Q[1][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
+                    if(mcPlayer.pi[stateIndex])
+                      dataHit.push([p1,d1]);
+                    else
+                      dataStick.push([p1,d1]);
+                  }
+                }
+              }
+              else{
+                for(var p1 = 12; p1 <= 21; p1++) {
+                  var mcPlayer = $(".monte-carlo-player")[0].player;
+
+                  dataHit.push(mcPlayer.Q[0][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
+                  dataStick.push(mcPlayer.Q[1][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
+                }
               }
 
               new Highcharts.Chart({
                 chart: {
                   renderTo: "chart",
-                  defaultSeriesType: "line",
+                  defaultSeriesType: dealerHand==1?"scatter":"line",
                   marginRight: 130,
                   marginBottom: 25
                 },
                 title: {
-                  text: "Monte Carlo ES Strategy (Dealer: " + dealerHand + ")",
+                  text: dealerHand==1?"Monte Carlo ES":"Monte Carlo ES Strategy (Dealer: " + dealerHand + ")",
                   x: -20 //center
                 },
                 xAxis: {
@@ -133,7 +148,7 @@
                 },
                 yAxis: {
                   title: {
-                    text: "Q"
+                    text: dealerHand==1?"Dealer showing":"Q"
                   },
                   plotLines: [{
                     value: 0,
@@ -147,7 +162,14 @@
                 }, {
                   name: 'Q(Stick)',
                   data: dataStick
-                }]
+                }],
+                plotOptions: {
+                  scatter: {
+                    marker: {
+                      radius: 10
+                    }
+                  }
+                }
               });
             }
 
@@ -155,13 +177,17 @@
               drawChart();
 
             if(e.keyCode == 38) { // 'up'
-              dealerHand++;
-              drawChart();
+              if(dealerHand < 11){
+                dealerHand++;
+                drawChart();
+              }
             }
 
             if(e.keyCode == 40) { // 'down'
-              dealerHand--;
-              drawChart();
+              if(dealerHand > 1){
+                dealerHand--;
+                drawChart();
+              }
             }
           }
         );

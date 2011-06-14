@@ -72,11 +72,11 @@ function MonteCarloPlayer() {
       for(var p2 = 0; p2 <= 1; p2++) {
         var stateIndex = this.stateIndexFor(p1, d1, p2);
 
-//         // initial strategy: hit for < 20
-//         this.Q[0][stateIndex] = p1<20?1:0; // hit
-//         this.Q[1][stateIndex] = p1<20?0:1; // stick
-        this.Q[0][stateIndex] = Math.random(); // hit
-        this.Q[1][stateIndex] = Math.random(); // stick
+        // initial strategy: hit for < 20
+        this.Q[0][stateIndex] = p1<20?1:0; // hit
+        this.Q[1][stateIndex] = p1<20?0:1; // stick
+//         this.Q[0][stateIndex] = Math.random(); // hit
+//         this.Q[1][stateIndex] = Math.random(); // stick
 
         this.pi[stateIndex] = this.Q[0][stateIndex] > this.Q[1][stateIndex]; // hit better than stick
 
