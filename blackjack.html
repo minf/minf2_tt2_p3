@@ -110,11 +110,11 @@
               var dataHit = [];
               var dataStick = [];
 
-              if(dealerHand == 1){
+              if(dealerHand<2){
                 for(var p1 = 12; p1 <= 21; p1++){
                   for(var d1 = 2; d1 <= 11; d1++){
                     var mcPlayer = $(".monte-carlo-player")[0].player;
-                    var stateIndex = mcPlayer.stateIndexFor(p1, d1, 0);
+                    var stateIndex = mcPlayer.stateIndexFor(p1, d1, dealerHand);
 
                     if(mcPlayer.pi[stateIndex])
                       dataHit.push([p1,d1]);
@@ -135,12 +135,13 @@
               new Highcharts.Chart({
                 chart: {
                   renderTo: "chart",
-                  defaultSeriesType: dealerHand==1?"scatter":"line",
+                  defaultSeriesType: dealerHand<2?"scatter":"line",
                   marginRight: 130,
                   marginBottom: 25
                 },
                 title: {
-                  text: dealerHand==1?"Monte Carlo ES":"Monte Carlo ES Strategy (Dealer: " + dealerHand + ")",
+                  text: dealerHand==1?"Monte Carlo ES, usable ace":
+                        (dealerHand==0?"Monte Carlo ES":"Monte Carlo ES Strategy (Dealer: " + dealerHand + ")"),
                   x: -20 //center
                 },
                 xAxis: {
@@ -148,7 +149,7 @@
                 },
                 yAxis: {
                   title: {
-                    text: dealerHand==1?"Dealer showing":"Q"
+                    text: dealerHand<2?"Dealer showing":"Q"
                   },
                   plotLines: [{
                     value: 0,
@@ -157,10 +158,10 @@
                   }]
                 },
                 series: [{
-                  name: "Q(Hit)",
+                  name: dealerHand<2?"Hit":"Q(Hit)",
                   data: dataHit
                 }, {
-                  name: 'Q(Stick)',
+                  name: dealerHand<2?"Stick":"Q(Stick)",
                   data: dataStick
                 }],
                 plotOptions: {
@@ -184,7 +185,7 @@
             }
 
             if(e.keyCode == 40) { // 'down'
-              if(dealerHand > 1){
+              if(dealerHand > 0){
                 dealerHand--;
                 drawChart();
               }
