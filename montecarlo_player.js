@@ -144,6 +144,8 @@ function MonteCarloPlayer() {
     //   Append R to Returns(s, a)
     //   Q(s, a) <- average(Returns(s, a))
 
+    if(this.episode.length == 0) return;
+
     for(var i = 0; i < this.episode.length; i++) {
       var s = this.episode[i].s;
       var a = this.episode[i].a ? 0 : 1; // hit => 0, stick => 1
