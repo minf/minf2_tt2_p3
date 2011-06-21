@@ -109,8 +109,12 @@
 
               var dataHit = [];
               var dataStick = [];
+              var chartTitle = "";
 
               if(dealerHand<2){
+                chartTitle = "Monte Carlo ES";
+                if(dealerHand==1) chartTitle +=", usableAce";
+
                 for(var p1 = 12; p1 <= 21; p1++){
                   for(var d1 = 2; d1 <= 11; d1++){
                     var mcPlayer = $(".monte-carlo-player")[0].player;
@@ -124,12 +128,16 @@
                 }
               }
               else{
+                var hand = dealerHand;
+                var usableAce = hand > 11;
+                if(usableAce) hand -= 9;
                 for(var p1 = 12; p1 <= 21; p1++) {
                   var mcPlayer = $(".monte-carlo-player")[0].player;
 
-                  dataHit.push(mcPlayer.Q[0][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
-                  dataStick.push(mcPlayer.Q[1][mcPlayer.stateIndexFor(p1, dealerHand, 0)]);
+                  dataHit.push(mcPlayer.Q[0][mcPlayer.stateIndexFor(p1, hand, usableAce?1:0)]);
+                  dataStick.push(mcPlayer.Q[1][mcPlayer.stateIndexFor(p1, hand, usableAce?1:0)]);
                 }
+                chartTitle = "Monte Carlo ES Strategy (Dealer: " + hand + (usableAce?", usable ace":"") + ")";
               }
 
               new Highcharts.Chart({
@@ -140,8 +148,7 @@
                   marginBottom: 25
                 },
                 title: {
-                  text: dealerHand==1?"Monte Carlo ES, usable ace":
-                        (dealerHand==0?"Monte Carlo ES":"Monte Carlo ES Strategy (Dealer: " + dealerHand + ")"),
+                  text: chartTitle,
                   x: -20 //center
                 },
                 xAxis: {
@@ -178,7 +185,7 @@
               drawChart();
 
             if(e.keyCode == 38) { // 'up'
-              if(dealerHand < 11){
+              if(dealerHand < 20){
                 dealerHand++;
                 drawChart();
               }
