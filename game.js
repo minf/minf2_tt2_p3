@@ -1,7 +1,7 @@
 
 function Game(){
-  //this.players = [ new Player(), new MonteCarloPlayer(), new HumanPlayer() ];
-  this.players = [ new MonteCarloPlayer() ];
+  this.players = [ new MonteCarloPlayer(), new HumanPlayer() ];
+  //this.players = [ new MonteCarloPlayer() ];
   this.dealer = new Dealer();
   this.cardstack = new Cardstack();
   this.cardstack.init();
@@ -168,6 +168,6 @@ function Game(){
   }
 }
 
-Game.speed = 0;
+Game.speed = 1;
 
 
